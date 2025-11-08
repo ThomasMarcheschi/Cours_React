@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React sans JSX</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <!-- React et ReactDOM via CDN -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      function ToDoList() {
+        const [todoList, setTodoList] = React.useState([]);
+        const [todo, setTodo] = React.useState("");
+
+        const handleSubmit = () => {
+          if (todo !== "") {
+            setTodoList([...todoList, todo]);
+          }
+          setTodo("");
+        };
+
+        const handleDelete = (index) => {
+          const newTodoList = todoList.filter((value, i) => i !== index);
+          setTodoList(newTodoList);
+        };
+
+        return (
+          <div>
+            <h2>ToDo List</h2>
+            <input
+              type="text"
+              placeholder="Enter a task"
+              value={todo}
+              onChange={(e) => setTodo(e.target.value)}
+            />
+            <button onClick={handleSubmit}>Add</button>
+            <ul>
+              {todoList.map((todo, index) => {
+                return (
+                  <li key={index}>
+                    {todo}
+                    <button onClick={() => handleDelete(index)}>X</button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <div>
+            <ToDoList />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

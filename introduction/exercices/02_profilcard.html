@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exo 2</title>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+    <script>
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        
+        function ProfileCard(props){
+            return React.createElement(
+                "div",
+                null,
+                [
+                    React.createElement("img", {
+                        src: "https://images.unsplash.com/photo-1560343787-b90cb337028e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1974",
+                        width : 80,
+                        height: 80,
+                        key: 1
+                    }),
+                    React.createElement("h2", {key: 2}, "profil"),
+                    React.createElement("p", {key: 3}, "présentation")
+                ]
+            )
+        }
+        
+        function App(){
+            return React.createElement("div",null,[
+                React.createElement(ProfileCard,{key: 1}),
+                React.createElement(ProfileCard,{key: 2}),
+                React.createElement(ProfileCard,{key: 3}),
+            ])
+        }
+        const app = React.createElement(App, null , []);
+
+        root.render(app);
+    </script>
+</body>
+</html>

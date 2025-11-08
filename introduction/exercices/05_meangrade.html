@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React sans JSX</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <!-- React et ReactDOM via CDN -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const students = [
+        { name: "Alice", grade: 15 },
+        { name: "Bob", grade: 12 },
+        { name: "Charlie", grade: 18 },
+        { name: "Diana", grade: 14 },
+      ];
+
+      function average(notes) {
+        if (notes.length == 0) return;
+        let s = 0;
+        notes.forEach((note) => (s += note));
+
+        return Math.floor((s / notes.length) * 10) / 10;
+      }
+
+      function ListStudent(props) {
+        const notes = props.students.map((student) => student.grade);
+        return (
+          <div>
+            <ul>
+              {props.students.map((student, index) => {
+                return (
+                  <li key={index}>
+                    {student.name} : {student.grade}
+                  </li>
+                );
+              })}
+            </ul>
+            <p>moyenne : {average(notes)}</p>
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <div>
+            <ListStudent students={students} />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React sans JSX</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <!-- React et ReactDOM via CDN -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      function reducer(state, action) {
+        console.log(action);
+        switch (action.type) {
+          case "add":
+            console.log();
+            return { type: "add", item: { name: "Product A", price: 10 } };
+          case "remove":
+            return { type: "remove", index: 0 };
+          case "clear":
+            return { type: "clear" };
+          default:
+            return state;
+        }
+      }
+
+      function Cart() {
+        const [state, dispatch] = React.useReducer(reducer, {
+          item: [],
+          total: 0,
+        });
+
+        return (
+          <div>
+            <h2>Cart: {state.total}</h2>
+            <button onClick={() => dispatch({ type: "add" })}>add</button>
+            <button onClick={() => dispatch({ type: "remove" })}>remove</button>
+            <button onClick={() => dispatch({ type: "clear" })}>clear</button>
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <div>
+            <Cart />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

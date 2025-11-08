@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React sans JSX</title>
+    <style>
+      .outOfStock {
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <!-- React et ReactDOM via CDN -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      function ProductCard({ name, price, image, inStock }) {
+        return (
+          <div>
+            <img src={image} height="150" />
+            <h2>{name}</h2>
+            {inStock ? (
+              price < 20 ? (
+                <div>
+                  <p>On Sale!</p>
+                  <p>Price : {price} </p>
+                </div>
+              ) : (
+                <p>Price : {price} </p>
+              )
+            ) : (
+              <p className="outOfStock">Out of stock</p>
+            )}
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <div>
+            <ProductCard
+              name="panda"
+              price={12}
+              image="https://images.unsplash.com/photo-1560343787-b90cb337028e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1974"
+              inStock={true}
+            />
+            <ProductCard
+              name="panda"
+              price={22}
+              image="https://images.unsplash.com/photo-1560343787-b90cb337028e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1974"
+              inStock={false}
+            />
+            <ProductCard
+              name="panda"
+              price={22}
+              image="https://images.unsplash.com/photo-1560343787-b90cb337028e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1974"
+              inStock={true}
+            />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

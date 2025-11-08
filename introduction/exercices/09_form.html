@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React sans JSX</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <!-- React et ReactDOM via CDN -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      function LoginForm() {
+        const [mail, setMail] = React.useState("");
+        const [password, setPassword] = React.useState("");
+
+        function handleSubmit() {
+          console.log(mail);
+          console.log(password);
+          setMail("");
+          setPassword("");
+        }
+        return (
+          <div>
+            <input
+              type="email"
+              placeholder="Enter your mail"
+              value={mail}
+              onChange={(e) => setMail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button onClick={handleSubmit}>Valider</button>
+          </div>
+        );
+      }
+      function App() {
+        return (
+          <div>
+            <LoginForm />
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
