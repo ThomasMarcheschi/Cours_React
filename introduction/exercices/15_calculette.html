@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculette</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <!-- React et ReactDOM via CDN -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const { useReducer } = React;
+      const initialState = {
+        nb1: "",
+        nb2: "",
+        result: 0,
+        error: "",
+      };
+
+      function reducer(state, action) {
+        switch (action.type) {
+          case "modifNb1":
+            return { ...state, nb1: action.value };
+
+          case "modifNb2":
+            return { ...state, nb2: action.value };
+
+          case "additionner":
+            if (!state.nb1 || !state.nb2) {
+              return {
+                ...state,
+                error: "au moins un champ est vide",
+                result: 0,
+              };
+            }
+            return { ...state, result: state.nb1 + state.nb2, error: "" };
+
+          case "soustraire":
+            if (!state.nb1 || !state.nb2) {
+              return {
+                ...state,
+                error: "au moins un champ est vide",
+                result: 0,
+              };
+            }
+            return { ...state, result: state.nb1 - state.nb2, error: "" };
+
+          case "multiplier":
+            if (!state.nb1 || !state.nb2) {
+              return {
+                ...state,
+                error: "au moins un champ est vide",
+                result: 0,
+              };
+            }
+            return { ...state, result: state.nb1 * state.nb2, error: "" };
+
+          case "diviser":
+            if (!state.nb1 || !state.nb2) {
+              return {
+                ...state,
+                error: "au moins un champ est vide",
+                result: 0,
+              };
+            }
+            if (state.nb2 === 0) {
+              return {
+                ...state,
+                error: "Vous ne pouvez pas diviser par 0",
+                result: 0,
+              };
+            }
+            return { ...state, result: state.nb1 / state.nb2, error: "" };
+
+          default:
+            return state;
+        }
+      }
+
+      function Calculatrice() {
+        const [state, dispatch] = useReducer(reducer, initialState);
+
+        return (
+          <div>
+            <h3>Calculette</h3>
+            <input
+              type="number"
+              value={state.nb1}
+              onChange={(e) =>
+                dispatch({ type: "modifNb1", value: parseInt(e.target.value) })
+              }
+            />
+            <input
+              type="number"
+              value={state.nb2}
+              onChange={(e) =>
+                dispatch({ type: "modifNb2", value: parseInt(e.target.value) })
+              }
+            />
+            {state.error && <p style={{ color: "red" }}>{state.error}</p>}
+            <p>
+              <button onClick={() => dispatch({ type: "additionner" })}>
+                additionner (+)
+              </button>
+              <button onClick={() => dispatch({ type: "soustraire" })}>
+                soustraire (-)
+              </button>
+              <button onClick={() => dispatch({ type: "multiplier" })}>
+                multiplier (X)
+              </button>
+              <button onClick={() => dispatch({ type: "diviser" })}>
+                diviser (/)
+              </button>
+            </p>
+            <p>Resultat: {state.result}</p>
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <div>
+            <Calculatrice />
+          </div>
+        );
+      }
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

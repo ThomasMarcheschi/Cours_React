@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>useReducer</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <!-- React et ReactDOM via CDN -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const { useReducer } = React;
+      const initialState = { count: 0, step: 1, message: "" };
+
+      function reducer(state, action) {
+        switch (action.type) {
+          case "increment":
+            return { ...state, count: state.count + state.step };
+          case "decrement":
+            return { ...state, count: state.count - state.step };
+          case "reset":
+            return { ...state, count: 0 };
+          default:
+            return state;
+        }
+      }
+
+      function App() {
+        const [state, dispatch] = useReducer(reducer, initialState);
+
+        return (
+          <div>
+            <h2>Count: {state.count}</h2>
+            <button onClick={() => dispatch({ type: "increment" })}>+</button>
+            <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+            <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
