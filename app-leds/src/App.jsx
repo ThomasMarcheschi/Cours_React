@@ -3,18 +3,25 @@ import LedPanel from "./components/LedPanel.jsx";
 import { useState } from "react";
 import BlueLed from "./components/BlueLed.jsx";
 import { useEffect } from "react";
-import { use } from "react";
 
 const initialState = { active: "red" };
 
 function reducer(state, action) {
   switch (action.type) {
     case "next":
-      if (state.active === "red") return { ...state, active: "yellow" };
-      if (state.active === "yellow") return { ...state, active: "green" };
-      if (state.active === "green") return { ...state, active: "red" };
-      break;
-
+      //   if (state.active === "red") return { ...state, active: "yellow" };
+      //   if (state.active === "yellow") return { ...state, active: "green" };
+      //   if (state.active === "green") return { ...state, active: "red" };
+      //   break;
+      return {
+        ...state,
+        active:
+          state.active == "red"
+            ? "yellow"
+            : state.active == "yellow"
+            ? "green"
+            : "red",
+      };
     case "reset":
       if (state.activate !== "red") return { ...state, active: "red" };
       return;
