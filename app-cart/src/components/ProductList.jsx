@@ -9,7 +9,10 @@ const ProductList = () => {
         return (
           <li key={index}>
             <div className="flex gap-2 my-6 px-2 justify-center">
-              <h4>{product.name}</h4> : <p>{product.price}€</p>
+              <h4>
+                <a href={`/category/${product.category}`}>{product.name}</a>
+              </h4>
+              : <p>{product.price}€</p>
               <button
                 className="border px-2 cursor-pointer"
                 onClick={() => addToCart(product)}

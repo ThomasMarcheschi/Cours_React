@@ -9,9 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PokedexRouteImport } from './routes/pokedex'
 import { Route as CatalogueRouteImport } from './routes/catalogue'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PokemonNameRouteImport } from './routes/pokemon.$name'
+import { Route as CategoryNameRouteImport } from './routes/category.$name'
 
+const PokedexRoute = PokedexRouteImport.update({
+  id: '/pokedex',
+  path: '/pokedex',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CatalogueRoute = CatalogueRouteImport.update({
   id: '/catalogue',
   path: '/catalogue',
@@ -22,35 +30,75 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PokemonNameRoute = PokemonNameRouteImport.update({
+  id: '/pokemon/$name',
+  path: '/pokemon/$name',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoryNameRoute = CategoryNameRouteImport.update({
+  id: '/category/$name',
+  path: '/category/$name',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/catalogue': typeof CatalogueRoute
+  '/pokedex': typeof PokedexRoute
+  '/category/$name': typeof CategoryNameRoute
+  '/pokemon/$name': typeof PokemonNameRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/catalogue': typeof CatalogueRoute
+  '/pokedex': typeof PokedexRoute
+  '/category/$name': typeof CategoryNameRoute
+  '/pokemon/$name': typeof PokemonNameRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/catalogue': typeof CatalogueRoute
+  '/pokedex': typeof PokedexRoute
+  '/category/$name': typeof CategoryNameRoute
+  '/pokemon/$name': typeof PokemonNameRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/catalogue'
+  fullPaths:
+    | '/'
+    | '/catalogue'
+    | '/pokedex'
+    | '/category/$name'
+    | '/pokemon/$name'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/catalogue'
-  id: '__root__' | '/' | '/catalogue'
+  to: '/' | '/catalogue' | '/pokedex' | '/category/$name' | '/pokemon/$name'
+  id:
+    | '__root__'
+    | '/'
+    | '/catalogue'
+    | '/pokedex'
+    | '/category/$name'
+    | '/pokemon/$name'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CatalogueRoute: typeof CatalogueRoute
+  PokedexRoute: typeof PokedexRoute
+  CategoryNameRoute: typeof CategoryNameRoute
+  PokemonNameRoute: typeof PokemonNameRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/pokedex': {
+      id: '/pokedex'
+      path: '/pokedex'
+      fullPath: '/pokedex'
+      preLoaderRoute: typeof PokedexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/catalogue': {
       id: '/catalogue'
       path: '/catalogue'
@@ -65,12 +113,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pokemon/$name': {
+      id: '/pokemon/$name'
+      path: '/pokemon/$name'
+      fullPath: '/pokemon/$name'
+      preLoaderRoute: typeof PokemonNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$name': {
+      id: '/category/$name'
+      path: '/category/$name'
+      fullPath: '/category/$name'
+      preLoaderRoute: typeof CategoryNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CatalogueRoute: CatalogueRoute,
+  PokedexRoute: PokedexRoute,
+  CategoryNameRoute: CategoryNameRoute,
+  PokemonNameRoute: PokemonNameRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
